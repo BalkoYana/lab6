@@ -18,7 +18,7 @@ class Ap2Spider(scrapy.Spider):
                 wait_time=10,
                 wait_until=expected_conditions.element_to_be_clickable(
                     (By.CSS_SELECTOR,
-                     "li button")
+                     "alliance-recommended-vacancy-list")
                 ),
                 execute=self.login
             )
@@ -41,8 +41,8 @@ class Ap2Spider(scrapy.Spider):
         button.click()
 
     def parse(self, response):
-        for item in response.css("div.santa--mb-20.ng-star-inserted.santa-min-h-0"):
-            name = item.css('font::text').get().strip()
+        for item in response.css("alliance-recommended-vacancy-list.ng-star-inserted a"):
+            name = item.css('::text').get().strip()
             url = item.css('img::attr(src)').get()
 
             yield Item(
